@@ -3,13 +3,14 @@ section, footer, aside, article, figure, audio, video, canvas {
 }
 
 body {
+	font-family: Arial, sans-serif;
 	background-color: #CCC;
 }
 
 main {
 	border: 0.1em solid black;
 	background-color: #DDD;
-	margin: 0em 4em;
+	margin: 0em 10%;
 }
 
 header {
