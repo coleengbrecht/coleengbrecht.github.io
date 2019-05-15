@@ -1,0 +1,82 @@
+section, footer, aside, article, figure, audio, video, canvas {
+	display: block;
+}
+
+body {
+	background-color: #CCC;
+}
+
+main {
+	border: 0.1em solid black;
+	background-color: #DDD;
+	margin: 0em 4em;
+}
+
+header {
+	background-color: #222;
+	color: #DDD;
+	display: block;
+}
+
+header section#title {
+	display: inline-block;
+	padding: 0.9em 1.6em;
+}
+
+nav {
+	margin: 0;
+	padding: 0;
+	background-color: #222;
+	display: inline;
+	width: 100%;
+}
+
+nav ul {
+	display: inline;
+	margin: 0;
+	padding: 0;
+}
+
+nav ul li {
+	list-style-type: none;
+	display: inline;
+}
+
+nav ul p {
+	color: #DDD;
+	display: inline;
+}
+
+nav ul li a {
+	color: #DDD;
+	padding: 1em 1.2em;
+	display: inline-block;
+	text-decoration: none;
+}
+
+nav ul li a:hover {
+	text-decoration: underline;
+	text-decoration-color: #2A4;
+}
+
+section#seperator hr {
+	margin: 0;
+}
+
+section.content {
+	display: none;
+}
+
+section.content#page-0 {
+	display: block;
+}
+
+article {
+	padding: 1em 2%;
+}
+
+footer {
+	padding: 1em 2%;
+	background-color: #222;
+	color: #DDD;
+}
