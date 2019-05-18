@@ -1,46 +1,86 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-widtdth, initial-scale=1"/>
-	<title>Coleman Engbrecht - Portfolio</title>
-	<link rel="stylesheet" href="css/normalize.css" />
+	<meta name="viewport" content="width=device-widtdth, initial-scale=1, shrink-to-fit=no"/>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" href="css/page.css" />
-	<link ref="icon" href="images/favicon.png" />
+	<title>Coleman Engbrecht - Portfolio</title>
+	<!--<link ref="icon" href="images/favicon.png" />-->
 </head>
 <body>
-	<script type="text/javascript" src="js/control.js"></script>
-	<div id="wrapper">
-		<header>
-			<section id="title">
-				Coleman Engbrecht
+	<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+		<header class="text-center">
+			<div class="inner">
+				<h3 class="masthead-brand">Coleman Engbrecht</h3>
+				<nav class="nav nav-masthead justify-content-center">
+					<a class="nav-link active" href="#" onclick="show_page(0)">About</a>
+					<a class="nav-link" href="#" onclick="show_page(1)">Oak Engine</a>
+					<a class="nav-link" href="#" onclick="show_page(2)">Fractured Genome</a>
+					<a class="nav-link" href="#" onclick="show_page(3)">Contact</a>
+				</nav>
+			</div>
+		</header>
+		<hr class="masthead divider w-100"/>
+		<main class="inner cover" role="main">
+			<section class="page" id="about">
+				<div class="text-center">
+					<h1 class="cover-heading">About Me</h1>
+					<p class="lead">I am a 19 year old computer engineer who has been making websites and games for the past 10 years.</p>
+				</div>
+				<p></p>
 			</section>
-		<nav>
-			<ul>
-				<li><a href="#" onclick="show_page(0)">About</a></li><p> |</p>
-				<li><a href="#" onclick="show_page(1)">Oak Engine</a></li><p> |</p>
-				<li><a href="#" onclick="show_page(2)">Game</a></li>
-			</ul>
-		</nav></header><section id="seperator">
-			<hr style="color: #DDD;"/>
-		</section>
-		<main>
-			<section class="content" id="page-0">
-				<article>
-				I am Coleman, I program and make games.
-				</article>
-			</section><section class="content" id="page-1">
-				<article>
-				Oak Engine is a engine I build from the ground up using c++ over the past year and a half.
-				</article>
-			</section><section class="content" id="page-2">
-				<article>
-				I make game with engine.
-				</article>
-			</section><footer>
-				Footer
-			</footer>
+			<section class="page" id="oak_engine">
+				<h1 class="cover-heading">Oak Engine</h1>
+				<p>Oak Engine is a game engine I build from the ground up using c++ over the past year and a half.</p>
+				<p class="text-center">Checkout the trailer for an early version here:</p>
+<iframe id="engine-showcase" width=560 height=315 src="https://www.youtube.com/embed/WPXpYQz1Xi0" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<br/>
+				<p>The main goal of this engine was to learn as much as possible about what goes into creating a game. I tasked myself with writing all of the core components such as: rendering, physics, asset management, audio mixing, etc...</p>
+				<h3>Features:</h3>
+				<ul>
+					<li>OpenGL 4 AZDO rendering engine</li>
+					<li>Ray traced shadows</li>
+					<li>Physically based lighting model</li>
+					<li>Bloom post-processing filter</li>
+					<li>HDR rendering pipeline</li>
+					<li>Entity Component System</li>
+					<li>Run time data support with custom type information generator</li>
+					<li>Multichannel audio mixer</li>
+					<li>2D rigid body physics simulation</li>
+					<li>Builtin scene editor</li>
+					<li>Plugin system</li>
+					<li>Hot code reloading</li>
+					<li>Asset manager</li>
+					<li>Data driven material system</li>
+					<li>Multi distance field font rendering for rendering scalable text from low resolution glyphs</li>
+					<li>Fast AStar pathfinding with path refinement</li>
+					<li>Immediate mode gui library</li>
+				</ul>
+			</section>
+			<section class="page" id="fractured_genome">
+				<h1>Factured Genome</h1>
+				<p>Fractured Genome is my latest game project. Is is being build with Oak Engine as a testament to the engines usability and completeness. The game takes place in the far future where an evil cooperation is doing illegal weapons development and you are tasked at stoping them at all costs. More info can be found on the games <a class="text-link" href="https://cenomla.itch.io/fractured-genome">itch page.</a></p>
+			</section>
+			<section class="page" id="contact">
+				<h1>Contact</h1>
+				<p>Feel free to send me an email at <a class="text-link" href="mailto:cole.engbrecht@gmail.com">cole.engbrecht@gmail.com</a>. I am also avaliable at:</p>
+				<ul>
+					<li>Twitter: <a class="text-link" href="https://twitter.com/ColemanEngbrec1">@ColemanEngbrec1</a></li>
+					<li>Twitch: <a class="text-link" href="https://twich.tv/cenomla">My Stream</a></li>
+				</ul>
+			</section>
 		</main>
+		<footer class="mastfoot mt-auto">
+			<div class="inner">
+				<p>Copyright Coleman Engbrecht &copy; 2019. All rights reserved.</p>
+			</div>
+		</footer>
 	</div>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="js/iframeResizer.min.js"></script>
+	<script type="text/javascript" src="js/control.js"></script>
 </body>
 </html>
