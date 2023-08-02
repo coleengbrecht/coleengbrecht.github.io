@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+	<title></title>
+	<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+	<link rel="stylesheet" href="modest.css"/>
+	<link rel="stylesheet" href="custom.css"/>
+</head>
+<body>
+<a name="Projects"></a>
+<h1>Projects</h1>
+
+<p><a href="index.html">About</a>|Projects|<a href="blog.html">Blog</a></p>
+
+<a name="Oak-Engine"></a>
+<h3>Oak Engine</h3>
+
+<p>Oak Engine is a game engine I&rsquo;ve been working on for around 7 years built completely from scratch. The runtime dependencies are restricted to SDL with some small C libraries for loading images, assets, etc&hellip; My main goals for the engine are to learn as much as possible by diving deep into the underlying topics and knowledge required for implementing each feature, as well as to have a production ready application for indie game development and game jams. Checkout some of the <a href="#The-Only-Survivor-Miraculously-had-no-Internet">games</a> I&rsquo;ve made with Oak Engine</p>
+
+<a name="Features"></a>
+<h6>Features</h6>
+
+<ul>
+<li>Cross-platform runtime and editor for Linux and Windows</li>
+<li>Multithreaded execution engine using fibers</li>
+<li>Custom multi-threaded arena based memory allocation</li>
+<li>Module/plugin system with an extensible application architecture and main game loop</li>
+<li>Written in orthodox c++, does not depend on the c++ standard library runtime</li>
+<li>Resource manager with async asset loading</li>
+<li>Robust input handling with controller support</li>
+<li>Simple audio mixer with support for volume/pitch fading, multiple output formats</li>
+<li>Custom implementation of a reliable ordered network protocol over UDP inspired by Valve&rsquo;s game network sockets</li>
+<li>Runtime data model with support for multiple serialization formats and automatic symmetric diffing</li>
+<li>Simple entity component system that features
+
+<ul>
+<li>Runtime defined components</li>
+<li>Prefabs</li>
+<li>Comprehensive serialization, custom serialization callbacks based on the data type or annotation</li>
+</ul>
+</li>
+<li>Out of process editor
+
+<ul>
+<li>Global/per-project plugin support</li>
+<li>Built in a custom GUI framework</li>
+<li>Supports scene introspection within running instances of game projects over the network</li>
+<li>Robust level and asset editor</li>
+<li>Deep data driven undo/redo</li>
+</ul>
+</li>
+<li>Tile system with support for multiple grid types and advanced auto-tiling</li>
+<li>Fully featured navigation engine, ability to robustly auto generate nav-meshes based off of level geometry</li>
+<li>Physically based rendering engine with a custom high-level graphics API using vulkan as the backend
+
+<ul>
+<li>Micro-facet based surface model</li>
+<li>Energy conserving area lights</li>
+<li>Image based lighting</li>
+<li>Shadow mapping</li>
+<li>SSAO</li>
+<li>SSR</li>
+<li>Normal and parallax mapping</li>
+<li>Screen space shadows</li>
+<li>Compute bloom</li>
+<li>Compute particle system, n-body simulation</li>
+<li>Tone-mapping and gamma correction</li>
+<li>Complete 2D support even for advanced lighting and post-processing</li>
+<li>Per material and render layer based batching system</li>
+<li>Multi draw indirect geometry engine for issuing tens of thousands of draw calls with sub ms cpu performance</li>
+<li>GPU frame profiler</li>
+</ul>
+</li>
+<li>2D rigid body physics engine with events so that gameplay can hook into every aspect of the contact solver</li>
+<li>3D geometry, animation and rigid body physics engine built on top of the coherent, numerically stable and performant PGA (plane-based geometric algebra)</li>
+<li>CPU frame profiler</li>
+<li>Audio mixer visual debugger</li>
+<li>Memory debugger widget</li>
+<li>Physics step debugger</li>
+<li>Reliable cross-platform hot code reloading for both the game and editor</li>
+</ul>
+
+
+<a name="PGA-rigid-body-physics"></a>
+<h6>PGA rigid body physics</h6>
+
+<iframe id="pga-rigid-body-physics" src="https://www.youtube.com/embed/ty47UXdVAcM" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
+<a name="Old-showcase-video--28-4-years-old-29-"></a>
+<h6>Old showcase video (4 years old)</h6>
+
+<iframe id="engine-showcase" src="https://www.youtube.com/embed/WPXpYQz1Xi0" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
+<a name="Water-shader-demo"></a>
+<h6>Water shader demo</h6>
+
+<iframe id="water-shader-demo" src="https://www.youtube.com/embed/IeFNYUheey8" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
+<a name="Rendering-test-scene"></a>
+<h6>Rendering test scene</h6>
+
+<p><img src="3d-test-scene.png" alt="rendering test scene" /></p>
+
+<a name="Analytical-area-lights"></a>
+<h6>Analytical area lights</h6>
+
+<p><img src="analytical-area-lights.png" alt="sphere area light test scene" /></p>
+
+<a name="Editor-2D-2f-3D-viewports"></a>
+<h6>Editor 2D/3D viewports</h6>
+
+<p><img src="editor-2d-viewport.png" alt="2d viewport" /></p>
+
+<p><img src="editor-3d-viewport.png" alt="3d viewport" /></p>
+
+<hr />
+
+<a name="The-Only-Survivor-Miraculously-had-no-Internet"></a>
+<h3>The Only Survivor Miraculously had no Internet</h3>
+
+<p>My most recent project started as a game jam for the Global Game Jam 2023. It&rsquo;s a logic based hacking puzzle game with art by <a href="https://dystoth.com/">dystoth</a>.</p>
+
+<iframe id="ggj-2023" src="https://www.youtube.com/embed/M8csSDGMG_Y" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
+<hr />
+
+<a name="Restore-Vulcan"></a>
+<h3>Restore Vulcan</h3>
+
+<p>Restore Vulcan is a game I made in my engine with some friends during the Global Game Jam in 2020, a windows demo is available on <a href="https://cenomla.itch.io/restore-vulcan">itch</a>.</p>
+
+<p>Art by <a href="https://www.instagram.com/artbykib/">@artbykib</a>, music by Kyle, sound effects by Joel.</p>
+
+<iframe id="restore-vulkan-showcase" src="https://www.youtube.com/embed/SV0C0SoEzgQ" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
+<hr />
+
+<a name="Fractured-Genome"></a>
+<h3>Fractured Genome</h3>
+
+<p>An early prototype arcade style twin-stick shooter I work on from time to time. It&rsquo;s a 2d game with 3d ray-marched lighting and some other fun graphical effects</p>
+
+<iframe id="arcade-shooter" src="https://www.youtube.com/embed/F_MBx-trH8s" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+</body>
+</html>
