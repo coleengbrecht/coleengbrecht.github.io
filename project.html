@@ -13,7 +13,7 @@
 <a name="Projects"></a>
 <h1>Projects</h1>
 
-<p><a href="index.html">About</a>|Projects|<a href="blog.html">Blog</a></p>
+<p><a href="index.html">About</a> | Projects | <a href="blog.html">Blog</a></p>
 
 <a name="Oak-Engine"></a>
 <h3>Oak Engine</h3>
@@ -24,7 +24,7 @@
 <h6>Features</h6>
 
 <ul>
-<li>Cross-platform runtime and editor for Linux and Windows</li>
+<li>Cross-platform runtime with support for Linux, Android and Windows, editor support for Linux and Windows</li>
 <li>Multithreaded execution engine using fibers</li>
 <li>Custom multi-threaded arena based memory allocation</li>
 <li>Module/plugin system with an extensible application architecture and main game loop</li>
@@ -50,6 +50,7 @@
 <li>Supports scene introspection within running instances of game projects over the network</li>
 <li>Robust level and asset editor</li>
 <li>Deep data driven undo/redo</li>
+<li>Live edits of the game&rsquo;s active scene when connected to editor</li>
 </ul>
 </li>
 <li>Tile system with support for multiple grid types and advanced auto-tiling</li>
@@ -60,12 +61,13 @@
 <li>Micro-facet based surface model</li>
 <li>Energy conserving area lights</li>
 <li>Image based lighting</li>
-<li>Shadow mapping</li>
+<li>Directional cascaded shadow mapping</li>
 <li>SSAO</li>
 <li>SSR</li>
 <li>Normal and parallax mapping</li>
 <li>Screen space shadows</li>
 <li>Compute bloom</li>
+<li>Weighted-blended OIT</li>
 <li>Compute particle system, n-body simulation</li>
 <li>Tone-mapping and gamma correction</li>
 <li>Complete 2D support even for advanced lighting and post-processing</li>
@@ -87,37 +89,32 @@
 <a name="PGA-rigid-body-physics"></a>
 <h6>PGA rigid body physics</h6>
 
-<iframe id="pga-rigid-body-physics" src="https://www.youtube.com/embed/ty47UXdVAcM" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-
-<a name="Old-showcase-video--28-4-years-old-29-"></a>
-<h6>Old showcase video (4 years old)</h6>
-
-<iframe id="engine-showcase" src="https://www.youtube.com/embed/WPXpYQz1Xi0" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-
-<a name="Water-shader-demo"></a>
-<h6>Water shader demo</h6>
-
-<iframe id="water-shader-demo" src="https://www.youtube.com/embed/IeFNYUheey8" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe id="pga-rigid-body-physics" src="https://www.youtube.com/embed/E6yi9LMLX_E" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
 <a name="Rendering-test-scene"></a>
 <h6>Rendering test scene</h6>
 
-<p><img src="3d-test-scene.png" alt="rendering test scene" /></p>
+<iframe id="rendering-test-scene" src="https://www.youtube.com/embed/Za1Ib-19ehQ" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-<a name="Analytical-area-lights"></a>
-<h6>Analytical area lights</h6>
 
-<p><img src="analytical-area-lights.png" alt="sphere area light test scene" /></p>
+<a name="L3d-viewport-and-level-editor"></a>
+<h6>3d viewport and level editor</h6>
 
-<a name="Editor-2D-2f-3D-viewports"></a>
-<h6>Editor 2D/3D viewports</h6>
+<iframe id="level-editor" src="https://www.youtube.com/embed/He-kW98wzGY" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-<p><img src="editor-2d-viewport.png" alt="2d viewport" /></p>
 
-<p><img src="editor-3d-viewport.png" alt="3d viewport" /></p>
+<a name="Glossy-screen-space-reflections"></a>
+<h6>Glossy screen space reflections</h6>
+
+<iframe id="ssr" src="https://www.youtube.com/embed/APsqEZmAW-0" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
+<a name="Old-showcase-video--28-5-years-old-29-"></a>
+<h6>Old showcase video (5 years old)</h6>
+
+<iframe id="engine-showcase" src="https://www.youtube.com/embed/WPXpYQz1Xi0" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 
 <hr />
 
@@ -136,7 +133,19 @@
 
 <p>Restore Vulcan is a game I made in my engine with some friends during the Global Game Jam in 2020, a windows demo is available on <a href="https://cenomla.itch.io/restore-vulcan">itch</a>.</p>
 
-<p>Art by <a href="https://www.instagram.com/artbykib/">@artbykib</a>, music by Kyle, sound effects by Joel.</p>
+<p>Art by <a href="https://www.instagram.com/artbykib/">@artbykib</a>, music by <a href="https://twitter.com/kylelevek">@kylelevek</a>, sound effects by <a href="https://instagram.com/joelcikaluk">@joelcikaluk</a>.</p>
+
+<iframe id="restore-vulkan-showcase" src="https://www.youtube.com/embed/SV0C0SoEzgQ" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
+<hr />
+
+<a name="Restore-Vulcan_0"></a>
+<h3>Restore Vulcan</h3>
+
+<p>Restore Vulcan is a game I made in my engine with some friends during the Global Game Jam in 2020, a windows demo is available on <a href="https://cenomla.itch.io/restore-vulcan">itch</a>.</p>
+
+<p>Art by <a href="https://www.instagram.com/artbykib/">@artbykib</a>, music by <a href="https://twitter.com/kylelevek">@kylelevek</a>, sound effects by <a href="https://instagram.com/joelcikaluk">@joelcikaluk</a>.</p>
 
 <iframe id="restore-vulkan-showcase" src="https://www.youtube.com/embed/SV0C0SoEzgQ" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
