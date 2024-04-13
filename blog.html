@@ -20,7 +20,7 @@
 
 <p><em>April 2024</em></p>
 
-<p>A while back I was working on implementing grid rendering for the 3D viewport for Oak Engine. Instead of going through the pain of generating thick line geometry for the grid lines I decided to try and render a plane using a shader to procedurally generate the grid pattern. I had used SDF textures before and thought they would be a good fit for this problem and since the grid pattern is so simple it would be possible to sample a small implicit function instead of a texture. The function I ended up going with looks something like this</p>
+<p>A while back I was working on implementing grid rendering for the 3D viewport for Oak Engine. Instead of going through the pain of generating thick line geometry for the grid lines I decided to try to render a plane using a shader to procedurally generate the grid pattern. I had used SDF textures before, and thought they would be a good fit for this problem. Due to the grid pattern being very simple it would be possible to sample a small implicit function instead of a texture. The function I ended up going with looks something like this:</p>
 
 <p><pre><code class="glsl">float sample_grid(vec2 uv, float lineWidth) {
     vec2 t = abs(mod(abs(uv), vec2(2.0))-1)-1.0+lineWidth*0.5;
@@ -28,7 +28,7 @@
     return -max(t.x, t.y);
 }
 </code></pre>
-A simple saw wave where negative values represent the inside of the surface where the grid lines lie, pretty straight forward. Now when rendering we simply output an alpha of 1 when the pixel is inside a grid line and 0 otherwise. Of course that will look terrible because of the pixel aliasing. A common solution is to use the gradient of the SDF to compute an anti-aliased alpha value by scaling and clamping the output of the SDF function.</p>
+A simple saw wave where negative values represent the inside of the surface where the grid lines lie, pretty straight forward. Now when rendering, we simply output an alpha of 1 when the pixel is inside a grid line and 0 otherwise. Of course that will look terrible because of the pixel aliasing. A common solution is to use the gradient of the SDF to compute an anti-aliased alpha value by scaling and clamping the output of the SDF function.</p>
 
 <p><pre><code class="glsl">float compute_sdf_alpha(float SDF, vec2 uv, float invPixelUVWidth) {
     return clamp((-SDF*invPixelUVWidth) + 0.5, 0, 1);
@@ -37,14 +37,14 @@ A simple saw wave where negative values represent the inside of the surface wher
 <iframe src="https://www.desmos.com/calculator/8rlo5xgqxl?embed" style="border: 1px solid #ccc" frameborder=0></iframe>
 <em>The green function is the original SDF and the purple function is the computed alpha.</em></p>
 
-<p>Now if you&rsquo;ve ever tried to render a thin repeating pattern like a grid you&rsquo;ll know that the result looks terrible because of aliasing. Enabling anisotropic filtering in the texture sampler parameters with a reasonable max sample count pretty much cleans up the problem and you move on. In this instance we don&rsquo;t have the luxury of relying on the hardware sampler and so we&rsquo;ll need a different solution to the problem. I googled around for a bit looking for any info on how modern GPUs implement anisotropic filtering, eventually I stumbled across and algorithm called Elliptical Weighted Average (EWA) sampling.</p>
+<p>Now if you&rsquo;ve ever tried to render a thin repeating pattern like a grid, you&rsquo;ll know that the result looks terrible because of aliasing. Enabling anisotropic filtering in the texture sampler parameters with a reasonable max sample count pretty much cleans up the problem, and you move on. In this instance, we don&rsquo;t have the luxury of relying on the hardware sampler and so we&rsquo;ll need an alternative solution to the problem. I googled around for a bit looking for any info on how modern GPUs implement anisotropic filtering. Eventually, I stumbled across an algorithm called Elliptical Weighted Average (EWA) sampling.</p>
 
-<p>Essentially the EWA algorithm models each pixel as a circle and projects that circle onto the source object in texture space where it forms an ellipse. It then computes the bounding box of that ellipse and samples the texture along the ellipses primary axis averaging the results.</p>
+<p>Essentially, the EWA algorithm models each pixel as a circle and projects that circle onto the source object in texture space where it forms an ellipse. It then computes the bounding box of that ellipse and samples the texture along the ellipses primary axis averaging the results.</p>
 
 <a name="Computing-the-bounding-box-for-an-ellipse"></a>
 <h4>Computing the bounding box for an ellipse</h4>
 
-<p>The first step in computing the bounding box is to represent both the circle and ellipse using the following quadratic form</p>
+<p>The first step in computing the bounding box is to represent both the circle and ellipse using the following quadratic form:</p>
 
 <p>
 
@@ -55,7 +55,7 @@ $$p^TQp = F\quad where\quad Q = \begin{bmatrix} A & \frac{B}{2} \\ \frac{B}{2} &
 
 <p><em>A, B, C, and F are the coefficients of an implicit equation for a conic section centered on the origin, Q is the conic matrix.</em></p>
 
-<p>A circle has the following conic matrix</p>
+<p>A circle has the conic matrix</p>
 
 <p>
 
@@ -64,7 +64,7 @@ $$Q = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$$
 </p>
 
 
-<p>Forming the well know implicit equation</p>
+<p>forming the well know implicit equation</p>
 
 <p>
 
@@ -73,7 +73,7 @@ $$\begin{bmatrix}x&y\end{bmatrix}\begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}\be
 </p>
 
 
-<p>In order to compute the conic matrix for the resulting ellipse the circle&rsquo;s equation can be transformed using the matrix M</p>
+<p>In order to compute the conic matrix for the resulting ellipse the circle&rsquo;s equation can be transformed using the matrix M.</p>
 
 <p>
 
@@ -92,7 +92,7 @@ $$p'^TQ'p' = F'$$
 </p>
 
 
-<p>Using the previous linear transformation formula and the fact that the implicit ellipse equation is invariant up to a scalar factor and thus we can take F to equal one</p>
+<p>We substitute the previous linear transformation formula into the implicit equation for the transformed ellipse. Since the implicit ellipse equation is invariant up to a scalar factor, we can also normalize the equation so that F is equal to 1.</p>
 
 <p>
 
@@ -103,7 +103,7 @@ $$Q' = {M^{-1}}^TQM^{-1}$$
 </p>
 
 
-<p>M is a linear transform from texture space to pixel space and can be computed using the partial derivatives of the object&rsquo;s uv coordinates</p>
+<p>M is a linear transform from texture space to pixel space and can be computed using the partial derivatives of the object&rsquo;s uv coordinates.</p>
 
 <p>
 
@@ -112,7 +112,7 @@ $$M = \begin{bmatrix} \frac{\partial u}{\partial x} & \frac{\partial v}{\partial
 </p>
 
 
-<p>Now that we have computed the ellipse in it&rsquo;s implicit form the next step is to convert it into it&rsquo;s parametric form. We choose two perpendicular basis vectors to represent the major and minor axis of the ellipse. Together these form the Jacobian matrix we&rsquo;ll call M'</p>
+<p>Now that we have computed the ellipse in it&rsquo;s implicit form, the next step is to convert it into it&rsquo;s parametric form. We choose two perpendicular basis vectors to represent the major and minor axis of the ellipse. Together these form the Jacobian matrix we&rsquo;ll call M'.</p>
 
 <p>
 
@@ -121,7 +121,7 @@ $$M' = \begin{bmatrix}u_x & v_x \\ u_y & v_y\end{bmatrix}$$
 </p>
 
 
-<p>That looks exactly like the M matrix we just computed above, and that is almost true. Both matrices represent a basis for the ellipse, however the column vectors of the M matrix are not necessarily the orthogonal basis vectors representing the major and minor axis we are trying to compute. By using some mathematical pattern matching we can use the implicit conic matrix Q' we calculated along with some matrix diagonalization to compute the final matrix M'.</p>
+<p>That looks exactly like the M matrix we just computed above, and that is almost true. Both matrices represent a basis for the ellipse; however, the column vectors of the M matrix are not necessarily the orthogonal basis vectors representing the major and minor axis we are trying to compute. By using some mathematical pattern matching, we can use the implicit conic matrix Q' we calculated along with some matrix diagonalization to compute the final matrix M'.</p>
 
 <p>
 
@@ -142,7 +142,7 @@ $$Q' = {M'^{-1}}^TM'^{-1} = R^T\Lambda^T\Lambda R = R^T\Lambda^2R$$
 </p>
 
 
-<p>We can use matrix diagonalization to compute R which ends up being the matrix of unit eigenvectors of Q' and Lambda which is the square root of the matrix of eigenvalues</p>
+<p>We can use matrix diagonalization to compute R which ends up being the matrix of unit eigenvectors of Q' and Lambda, which is the square root of the matrix of eigenvalues.</p>
 
 <p>
 
@@ -164,17 +164,17 @@ $$M'^{-1}=\begin{bmatrix}\sqrt{\frac{(q+t)(t+p)}{4t}}&\sqrt{\frac{(q+t)(t-p)}{4t
 </p>
 
 
-<p>Visualizing the transformation from M to M' using Desmos gives us some intuition on what the process is doing</p>
+<p>Visualizing the transformation from M to M' using Desmos gives us some intuition into what the process is doing</p>
 
 <iframe src="https://www.desmos.com/calculator/s9t6gh46wc?embed" style="border: 1px solid #ccc" frameborder=0></iframe>
 
 
-<p><em>Drag the green and red points to change the shape of the ellipse. The green and red points are the columns of the matrix M, the blue and orange points are the columns of the matrix M'. The purple circle represents our pixel and the black ellipse represents the projected circle in texture space.</em></p>
+<p><em>Drag the green and red points to change the shape of the ellipse. The green and red points are the columns of the matrix M; the blue and orange points are the columns of the matrix M'. The purple circle represents our pixel and the black ellipse represents the projected circle in texture space.</em></p>
 
 <a name="Implementing-EWA-filtering-in-glsl"></a>
 <h4>Implementing EWA filtering in glsl</h4>
 
-<p>The shader code is almost a direct translation of the math above along with some checks for making sure the basis vectors are in the right quadrant. The first step is to compute the major and minor axis</p>
+<p>The shader code is almost a direct translation of the above math along with some checks for making sure the basis vectors are in the right quadrant. The primary function computes the delta uv vector along the major axis of the ellipse. The resulting values can then be used to sample N samples of the source texture, averaging the results to calculate the final color.</p>
 
 <p><pre><code class="glsl">
 void anisotropic_ewa_rect(
@@ -252,7 +252,7 @@ void anisotropic_ewa_rect(
     uvDelta = axisMaj/numSamples;
 }
 </code></pre>
-I&rsquo;m pretty happy with the final result. Some minor improvements could still be made by sampling along the minor axis a small amount as well or by doing something more advanced such as in <a href="#[3]">[3]</a>, however this works well enough for my use case. The following Shader Toy demonstrates the difference between naive isotropic filtering and EWA anisotropic filtering</p>
+I&rsquo;m pretty happy with the final result. Some minor improvements could still be made by sampling along the minor axis a small amount in addition to sampling along the major axis, or by doing something more advanced such as in <a href="#[3]">[3]</a>. The mathematically ideal solution is to take the Gaussian convolution over the entire elliptical area, however this approximation works well enough for my use case. The following Shader Toy demonstrates the difference between naive isotropic filtering and EWA anisotropic filtering.</p>
 
 <iframe frameborder="0" src="https://www.shadertoy.com/embed/DtsfWM?gui=true&t=10&paused=false&muted=false" allowfullscreen></iframe>
 
