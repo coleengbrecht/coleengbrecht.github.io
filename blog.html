@@ -39,10 +39,29 @@ A simple saw wave where negative values represent the inside of the surface wher
 
 <p>Now if you&rsquo;ve ever tried to render a thin repeating pattern like a grid, you&rsquo;ll know that the result looks terrible because of aliasing. Enabling anisotropic filtering in the texture sampler parameters with a reasonable max sample count pretty much cleans up the problem, and you move on. In this instance, we don&rsquo;t have the luxury of relying on the hardware sampler and so we&rsquo;ll need an alternative solution to the problem. I googled around for a bit looking for any info on how modern GPUs implement anisotropic filtering. Eventually, I stumbled across an algorithm called Elliptical Weighted Average (EWA) sampling.</p>
 
-<p>Essentially, the EWA algorithm models each pixel as a circle and projects that circle onto the source object in texture space where it forms an ellipse. It then computes the bounding box of that ellipse and samples the texture along the ellipses primary axis averaging the results.</p>
+<a name="EWA-overview"></a>
+<h4>EWA overview</h4>
 
-<a name="Computing-the-bounding-box-for-an-ellipse"></a>
-<h4>Computing the bounding box for an ellipse</h4>
+<p>In order to compute a pixel&rsquo;s final color we need to know which texels contribute to that color. If the rate of change of the texture coordinates matches the rate of change of the pixel coordinates, point sampling the texture will produce the correct result. If the rates of change don&rsquo;t match, we will need to compute a convolution of texels within a certain area to remove aliasing artifacts. EWA solves this problem by computing the Gaussian convolution of the texels within an elliptical area. The elliptical area is the projection of the circular footprint of a pixel onto a plane tangent to the surface the texels lay on.</p>
+
+<p><img src="april-blog-figure-3.png" alt="Ellipse area from different angle" />
+<em>The same area shown from two different angles. The left view is rendered from the camera&rsquo;s perspective, the (scaled) circular pixel footprint can be seen. The right view is rotated to show the projected elliptical area of that scaled pixel. The texels inside the elliptical area contribute to the color of the pixel.</em></p>
+
+<p>The final pixel color can be computed by sampling all of the texels inside of the ellipse and computing a weighted sum of those sample values. The weights come from a filter function. Ideally a Gaussian filter function is used, however a more efficient filter function such as a box filter can be used if performance is favored over quality. The texels inside of the ellipse satisfy the implicit equation</p>
+
+<p>
+
+$$p^TQ'p \leq 1\quad where\quad p = \begin{bmatrix}\Delta u \\ \Delta v\end{bmatrix}$$
+
+</p>
+
+
+<p>Evaluating this equation for all pixels would be too expensive, instead we compute the bounding box of the ellipse and only sample texels within that rectangle.</p>
+
+<p>In my implementation I sample texels along the ellipses major axis using a linear filter. The quality of this technique is reduced compared to using a full Gaussian filter; however, it vastly reduces the number of texture samples needed. If the implementation has access to texture pre-convolution data (mipmaps), using linear weighted samples will produce high quality results given the performance cost.</p>
+
+<a name="Computing-the-bounding-box-and-major-axis-for-an-ellipse"></a>
+<h4>Computing the bounding box and major axis for an ellipse</h4>
 
 <p>The first step in computing the bounding box is to represent both the circle and ellipse using the following quadratic form:</p>
 
@@ -176,8 +195,7 @@ $$M'^{-1}=\begin{bmatrix}\sqrt{\frac{(q+t)(t+p)}{4t}}&\sqrt{\frac{(q+t)(t-p)}{4t
 
 <p>The shader code is almost a direct translation of the above math along with some checks for making sure the basis vectors are in the right quadrant. The primary function computes the delta uv vector along the major axis of the ellipse. The resulting values can then be used to sample N samples of the source texture, averaging the results to calculate the final color.</p>
 
-<p><pre><code class="glsl">
-void anisotropic_ewa_rect(
+<p><pre><code class="glsl">void anisotropic_ewa_rect(
         vec2 uv,
         float maxAniso,
         out float numSamples,
@@ -250,6 +268,22 @@ void anisotropic_ewa_rect(
 
     numSamples = min(lMaj/lMin, maxAnisoSamples);
     uvDelta = axisMaj/numSamples;
+}
+
+vec4 sample_anisotropic(vec2 uv) {
+    const float maxSamples = 32.0;
+
+    float numSamples;
+    vec2 uvDelta;
+    anisotropic_ewa_rect(uv, maxSamples, numSamples, uvDelta);
+
+    vec4 color = vec4(0.0);
+    for (float i = 0.0; i &lt; numSamples; i += 1.0) {
+        color += evaluate_sdf(uv + uvDelta*i);
+    }
+    color /= numSamples;
+
+    return color;
 }
 </code></pre>
 I&rsquo;m pretty happy with the final result. Some minor improvements could still be made by sampling along the minor axis a small amount in addition to sampling along the major axis, or by doing something more advanced such as in <a href="#[3]">[3]</a>. The mathematically ideal solution is to take the Gaussian convolution over the entire elliptical area, however this approximation works well enough for my use case. The following Shader Toy demonstrates the difference between naive isotropic filtering and EWA anisotropic filtering.</p>
