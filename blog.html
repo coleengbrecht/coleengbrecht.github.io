@@ -20,7 +20,7 @@
 
 <p><em>April 2024</em></p>
 
-<p>A while back I was working on implementing grid rendering for the 3D viewport for Oak Engine. Instead of going through the pain of generating thick line geometry for the grid lines I decided to try to render a plane using a shader to procedurally generate the grid pattern. I had used SDF textures before, and thought they would be a good fit for this problem. Due to the grid pattern being very simple it would be possible to sample a small implicit function instead of a texture. The function I ended up going with looks something like this:</p>
+<p>A while back I was working on implementing grid rendering for the 3D viewport for Oak Engine. Instead of going through the pain of generating thick line geometry for the grid lines I decided to try to render a plane using a shader to procedurally generate the grid pattern. I had used SDF textures before, and thought they would be a good fit for this problem. Due to the grid pattern being very simple it would be possible to sample a small implicit function instead of a texture. The function I ended up using looks something like this:</p>
 
 <p><pre><code class="glsl">float sample_grid(vec2 uv, float lineWidth) {
     vec2 t = abs(mod(abs(uv), vec2(2.0))-1)-1.0+lineWidth*0.5;
@@ -28,7 +28,7 @@
     return -max(t.x, t.y);
 }
 </code></pre>
-A simple saw wave where negative values represent the inside of the surface where the grid lines lie, pretty straight forward. Now when rendering, we simply output an alpha of 1 when the pixel is inside a grid line and 0 otherwise. Of course that will look terrible because of the pixel aliasing. A common solution is to use the gradient of the SDF to compute an anti-aliased alpha value by scaling and clamping the output of the SDF function.</p>
+The function generates a simple saw wave where negative values represent the inside of the surface where the grid lines lie. Now when rendering, we simply output an alpha of 1 when the pixel is inside a grid line and 0 otherwise. However, due to high frequency sub-pixel details, pixels that aren&rsquo;t aligned with the grid will flicker significantly as the camera moves around. A common solution to that problem is to use the gradient of the SDF to compute an anti-aliased alpha value by scaling and clamping the output of the SDF function.</p>
 
 <p><pre><code class="glsl">float compute_sdf_alpha(float SDF, vec2 uv, float invPixelUVWidth) {
     return clamp((-SDF*invPixelUVWidth) + 0.5, 0, 1);
@@ -37,7 +37,7 @@ A simple saw wave where negative values represent the inside of the surface wher
 <iframe src="https://www.desmos.com/calculator/8rlo5xgqxl?embed" style="border: 1px solid #ccc" frameborder=0></iframe>
 <em>The green function is the original SDF and the purple function is the computed alpha.</em></p>
 
-<p>Now if you&rsquo;ve ever tried to render a thin repeating pattern like a grid, you&rsquo;ll know that the result looks terrible because of aliasing. Enabling anisotropic filtering in the texture sampler parameters with a reasonable max sample count pretty much cleans up the problem, and you move on. In this instance, we don&rsquo;t have the luxury of relying on the hardware sampler and so we&rsquo;ll need an alternative solution to the problem. I googled around for a bit looking for any info on how modern GPUs implement anisotropic filtering. Eventually, I stumbled across an algorithm called Elliptical Weighted Average (EWA) sampling.</p>
+<p>Interpolating the grid alpha based off of the gradient of the SDF is an improvement to the previous approach. Unfortunately, at low viewing angles, the problem persists. Enabling anisotropic filtering in the texture sampler parameters would be a resonable approach to get the desired quality. In this instance, since the texture is software defined, we don&rsquo;t have the luxury of relying on the hardware sampler, and so we&rsquo;ll need an alternative solution to the problem. I did some research looking for any info on how modern GPUs implement anisotropic filtering, hoping to replicate the behavior in software. Eventually, I stumbled across an algorithm called Elliptical Weighted Average (EWA) sampling.</p>
 
 <a name="EWA-overview"></a>
 <h4>EWA overview</h4>
@@ -56,9 +56,11 @@ $$p^TQ'p \leq 1\quad where\quad p = \begin{bmatrix}\Delta u \\ \Delta v\end{bmat
 </p>
 
 
+<p><em>Q' is the coefficient matrix for the ellipse, the derivation is shown in the next section.</em></p>
+
 <p>Evaluating this equation for all pixels would be too expensive, instead we compute the bounding box of the ellipse and only sample texels within that rectangle.</p>
 
-<p>In my implementation I sample texels along the ellipses major axis using a linear filter. The quality of this technique is reduced compared to using a full Gaussian filter; however, it vastly reduces the number of texture samples needed. If the implementation has access to texture pre-convolution data (mipmaps), using linear weighted samples will produce high quality results given the performance cost.</p>
+<p>In my implementation I sample texels along the ellipses major axis using a linear filter. The quality of this technique is reduced compared to using a full Gaussian filter; however, it vastly reduces the number of texture samples needed. If the implementation has access to texture pre-convolution data (mipmaps), using linear weighted samples will produce high quality results for the performance cost.</p>
 
 <a name="Computing-the-bounding-box-and-major-axis-for-an-ellipse"></a>
 <h4>Computing the bounding box and major axis for an ellipse</h4>
