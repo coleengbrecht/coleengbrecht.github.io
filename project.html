@@ -18,21 +18,23 @@
 <a name="Oak-Engine"></a>
 <h3>Oak Engine</h3>
 
-<p>Oak Engine is a game engine I&rsquo;ve been working on for around 7 years built completely from scratch. The runtime dependencies are restricted to SDL with some small C libraries for loading images, assets, etc&hellip; My main goals for the engine are to learn as much as possible by diving deep into the underlying topics and knowledge required for implementing each feature, as well as to have a production ready application for indie game development and game jams. Checkout some of the <a href="#The-Only-Survivor-Miraculously-had-no-Internet">games</a> I&rsquo;ve made with Oak Engine</p>
+<p>Oak Engine is a game engine I&rsquo;ve been working on for around 8 years built completely from scratch. The runtime dependencies are restricted to SDL with some small C libraries for file decoding, compression, etc&hellip; My main goals for the engine are to learn as much as possible by diving deep into the underlying topics and knowledge required for implementing each feature, as well as to have a production ready application for indie game development and game jams. Checkout some of the <a href="#The-Only-Survivor-Miraculously-had-no-Internet">games</a> I&rsquo;ve made with Oak Engine.</p>
 
 <a name="Features"></a>
 <h6>Features</h6>
 
 <ul>
 <li>Cross-platform runtime with support for Linux, Android and Windows, editor support for Linux and Windows</li>
-<li>Multithreaded execution engine using fibers</li>
-<li>Custom multi-threaded arena based memory allocation</li>
-<li>Module/plugin system with an extensible application architecture and main game loop</li>
-<li>Written in orthodox c++, does not depend on the c++ standard library runtime</li>
+<li>Job system implemented with a multithreaded fiber based event loop</li>
+<li>Custom thread safe arena based memory allocation</li>
+<li>Module/plugin system with an extensible application architecture and main loop</li>
+<li>Written in c style c++, does not depend on the c++ standard library runtime</li>
+<li>Runs exception free with ASan and UBSan enabled</li>
 <li>Resource manager with async asset loading</li>
 <li>Robust input handling with controller support</li>
 <li>Simple audio mixer with support for volume/pitch fading, multiple output formats</li>
 <li>Custom implementation of a reliable ordered network protocol over UDP inspired by Valve&rsquo;s game network sockets</li>
+<li>Reliable cross-platform hot code and asset reloading for both the game and editor</li>
 <li>Runtime data model with support for multiple serialization formats and automatic symmetric diffing</li>
 <li>Simple entity component system that features
 
@@ -40,6 +42,7 @@
 <li>Runtime defined components</li>
 <li>Prefabs</li>
 <li>Comprehensive serialization, custom serialization callbacks based on the data type or annotation</li>
+<li>Many built in components for interfacing with all engine systems</li>
 </ul>
 </li>
 <li>Out of process editor
@@ -48,70 +51,97 @@
 <li>Global/per-project plugin support</li>
 <li>Built in a custom GUI framework</li>
 <li>Supports scene introspection within running instances of game projects over the network</li>
-<li>Robust level and asset editor</li>
+<li>2D and 3D level editor</li>
+<li>Asset editor</li>
+<li>Texture tools</li>
 <li>Deep data driven undo/redo</li>
 <li>Live edits of the game&rsquo;s active scene when connected to editor</li>
 </ul>
 </li>
 <li>Tile system with support for multiple grid types and advanced auto-tiling</li>
-<li>Fully featured navigation engine, ability to robustly auto generate nav-meshes based off of level geometry</li>
+<li>Navigation engine with A* path finding, path smoothing, robust nav-mesh auto generation from the level geometry</li>
 <li>Physically based rendering engine with a custom high-level graphics API using vulkan as the backend
 
 <ul>
+<li>Clustered deferred lighting</li>
 <li>Micro-facet based surface model</li>
 <li>Energy conserving area lights</li>
 <li>Image based lighting</li>
 <li>Directional cascaded shadow mapping</li>
-<li>SSAO</li>
-<li>SSR</li>
-<li>Normal and parallax mapping</li>
-<li>Screen space shadows</li>
+<li>Local light shadows</li>
+<li>GPU driven renderer using only a few multi draw indirect calls</li>
+<li>Voxel based dynamic diffuse global illumination</li>
+<li>Screen space ambient occlusion based on the GTAO algorithm</li>
+<li>Screen space reflections with rough reflections using screen space cone tracing</li>
+<li>Normal mapping</li>
+<li>Screen space contact shadows</li>
 <li>Compute bloom</li>
-<li>Weighted-blended OIT</li>
+<li>Weighted-blended order independent transparency</li>
 <li>Compute particle system, n-body simulation</li>
 <li>Tone-mapping and gamma correction</li>
 <li>Complete 2D support even for advanced lighting and post-processing</li>
 <li>Per material and render layer based batching system</li>
-<li>Multi draw indirect geometry engine for issuing tens of thousands of draw calls with sub ms cpu performance</li>
-<li>GPU frame profiler</li>
 </ul>
 </li>
-<li>2D rigid body physics engine with events so that gameplay can hook into every aspect of the contact solver</li>
-<li>3D geometry, animation and rigid body physics engine built on top of the coherent, numerically stable and performant PGA (plane-based geometric algebra)</li>
-<li>CPU frame profiler</li>
+<li>3D rigid body physics engine
+
+<ul>
+<li>Collision, constraints and dynamics formulated using PGA (plane-based geometric algebra)</li>
+<li>Iterative Gauss Seidel constraint solver</li>
+<li>Island solver</li>
+<li>Multiple constraint types</li>
+</ul>
+</li>
+<li>Timeline animation system
+
+<ul>
+<li>Skeletal animation, motor (dual-quaternion) skinning</li>
+<li>Import animation timelines from gltf files</li>
+<li>Timeline editor</li>
+<li>Animate component properties</li>
+<li>Animation nodes can parent entity transforms</li>
+</ul>
+</li>
+<li>2D rigid body physics engine
+
+<ul>
+<li>Iterative Gauss Seidel constraint solver</li>
+<li>Warm starting</li>
+<li>Collision events so that gameplay code can hook into every aspect of the contact solver</li>
+</ul>
+</li>
+<li>Builtin debug tools
+
+<ul>
+<li>CPU/GPU frame profiler</li>
 <li>Audio mixer visual debugger</li>
 <li>Memory debugger widget</li>
 <li>Physics step debugger</li>
-<li>Reliable cross-platform hot code reloading for both the game and editor</li>
+<li>Texture viewer</li>
+<li>Animation debugger</li>
+<li>Network stats</li>
+</ul>
+</li>
 </ul>
 
 
-<a name="PGA-rigid-body-physics"></a>
-<h6>PGA rigid body physics</h6>
+<a name="Graphics-Showcase"></a>
+<h6>Graphics Showcase</h6>
 
-<iframe id="pga-rigid-body-physics" src="https://www.youtube.com/embed/E6yi9LMLX_E" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-
-<a name="Rendering-test-scene"></a>
-<h6>Rendering test scene</h6>
-
-<iframe id="rendering-test-scene" src="https://www.youtube.com/embed/Za1Ib-19ehQ" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe id="graphics-showcase" src="https://www.youtube.com/embed/w0TohwgbvqQ" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
-<a name="L3d-viewport-and-level-editor"></a>
-<h6>3d viewport and level editor</h6>
+<a name="Screenshots"></a>
+<h6>Screenshots</h6>
 
-<iframe id="level-editor" src="https://www.youtube.com/embed/He-kW98wzGY" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<p><img src="indirect-lighting.png" alt="Indirect lighting" /></p>
 
+<p><img src="sponza.png" alt="Sponza" /></p>
 
-<a name="Glossy-screen-space-reflections"></a>
-<h6>Glossy screen space reflections</h6>
+<p><img src="editor-dungeon-game.png" alt="Scene editor" /></p>
 
-<iframe id="ssr" src="https://www.youtube.com/embed/APsqEZmAW-0" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-
-<a name="Old-showcase-video--28-5-years-old-29-"></a>
-<h6>Old showcase video (5 years old)</h6>
+<a name="Old-showcase-video--28-6-years-old-29-"></a>
+<h6>Old showcase video (6 years old)</h6>
 
 <iframe id="engine-showcase" src="https://www.youtube.com/embed/WPXpYQz1Xi0" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
@@ -121,7 +151,7 @@
 <a name="The-Only-Survivor-Miraculously-had-no-Internet"></a>
 <h3>The Only Survivor Miraculously had no Internet</h3>
 
-<p>My most recent project started as a game jam for the Global Game Jam 2023. It&rsquo;s a logic based hacking puzzle game with art by <a href="https://dystoth.com/">dystoth</a>.</p>
+<p>My game jam entry for the Global Game Jam 2023. It&rsquo;s a logic based hacking puzzle game with art by <a href="https://dystoth.com/">dystoth</a>.</p>
 
 <iframe id="ggj-2023" src="https://www.youtube.com/embed/M8csSDGMG_Y" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
@@ -143,9 +173,21 @@
 <a name="Fractured-Genome"></a>
 <h3>Fractured Genome</h3>
 
-<p>An early prototype arcade style twin-stick shooter I work on from time to time. It&rsquo;s a 2d game with 3d ray-marched lighting and some other fun graphical effects</p>
+<p>An early prototype arcade style twin-stick shooter I work on from time to time. It&rsquo;s a 2d game with 3d ray-marched lighting and some other fun graphical effects.</p>
 
 <iframe id="arcade-shooter" src="https://www.youtube.com/embed/F_MBx-trH8s" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
+<hr />
+
+<a name="Skin-walkers-decent"></a>
+<h3>Skin walkers decent</h3>
+
+<p>A horror game made for the 2024 Alberta Game Jam. It&rsquo;s the first 3d jam game made in Oak Engine. The project page is available on <a href="https://cenomla.itch.io/hell-evator">itch</a>.</p>
+
+<iframe id="skin-walkers-descent" src="https://www.youtube.com/embed/CMOvL2HFmsY" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
 
 </body>
 </html>
