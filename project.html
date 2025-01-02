@@ -25,15 +25,15 @@
 
 <ul>
 <li>Cross-platform runtime with support for Linux, Android and Windows, editor support for Linux and Windows</li>
-<li>Job system implemented with a multithreaded fiber based event loop</li>
+<li>Fiber job system scheduled with a multithreaded event loop</li>
 <li>Custom thread safe arena based memory allocation</li>
 <li>Module/plugin system with an extensible application architecture and main loop</li>
-<li>Written in c style c++, does not depend on the c++ standard library runtime</li>
+<li>Written in C style C++, does not depend on the C++ standard library runtime</li>
 <li>Runs exception free with ASan and UBSan enabled</li>
-<li>Resource manager with async asset loading</li>
+<li>Resource manager with async asset loading, auto hot reloading in debug builds</li>
 <li>Robust input handling with controller support</li>
 <li>Simple audio mixer with support for volume/pitch fading, multiple output formats</li>
-<li>Custom implementation of a reliable ordered network protocol over UDP inspired by Valve&rsquo;s game network sockets</li>
+<li>Custom implementation of a reliable ordered network protocol over UDP, inspired by Valve&rsquo;s game network sockets</li>
 <li>Reliable cross-platform hot code and asset reloading for both the game and editor</li>
 <li>Runtime data model with support for multiple serialization formats and automatic symmetric diffing</li>
 <li>Simple entity component system that features
@@ -49,7 +49,7 @@
 
 <ul>
 <li>Global/per-project plugin support</li>
-<li>Built in a custom GUI framework</li>
+<li>UI built in a custom GUI framework</li>
 <li>Supports scene introspection within running instances of game projects over the network</li>
 <li>2D and 3D level editor</li>
 <li>Asset editor</li>
@@ -59,12 +59,12 @@
 </ul>
 </li>
 <li>Tile system with support for multiple grid types and advanced auto-tiling</li>
-<li>Navigation engine with A* path finding, path smoothing, robust nav-mesh auto generation from the level geometry</li>
+<li>Navigation engine with A* path finding, path smoothing, robust nav-mesh generation from the level geometry</li>
 <li>Physically based rendering engine with a custom high-level graphics API using vulkan as the backend
 
 <ul>
 <li>Clustered deferred lighting</li>
-<li>Micro-facet based surface model</li>
+<li>Micro-facet surface model</li>
 <li>Energy conserving area lights</li>
 <li>Image based lighting</li>
 <li>Directional cascaded shadow mapping</li>
@@ -80,7 +80,7 @@
 <li>Compute particle system, n-body simulation</li>
 <li>Tone-mapping and gamma correction</li>
 <li>Complete 2D support even for advanced lighting and post-processing</li>
-<li>Per material and render layer based batching system</li>
+<li>Batches draw calls per material and render layer</li>
 </ul>
 </li>
 <li>3D rigid body physics engine
