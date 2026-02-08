@@ -18,13 +18,14 @@
 <a name="Oak-Engine"></a>
 <h3>Oak Engine</h3>
 
-<p>Oak Engine is a game engine I&rsquo;ve been working on for around 8 years built completely from scratch. The runtime dependencies are restricted to SDL with some small C libraries for file decoding, compression, etc&hellip; My main goals for the engine are to learn as much as possible by diving deep into the underlying topics and knowledge required for implementing each feature, as well as to have a production ready application for indie game development and game jams. Checkout some of the <a href="#The-Only-Survivor-Miraculously-had-no-Internet">games</a> I&rsquo;ve made with Oak Engine.</p>
+<p>Oak Engine is my custom game engine built completely from scratch. The runtime dependencies are restricted to SDL with some small C libraries for file decoding, compression, etc&hellip; My main goals for the engine are to learn as much as possible by diving deep into the underlying topics and knowledge required for implementing each feature, as well as to have a production ready application for indie game development and game jams. Checkout some of the <a href="#The-Only-Survivor-Miraculously-had-no-Internet">games</a> I&rsquo;ve made with Oak Engine.</p>
 
 <a name="Features"></a>
 <h6>Features</h6>
 
 <ul>
 <li>Cross-platform runtime with support for Linux, Android and Windows, editor support for Linux and Windows</li>
+<li>Export projects to single executable file</li>
 <li>Fiber job system scheduled with a multithreaded event loop</li>
 <li>Custom thread safe arena based memory allocation</li>
 <li>Module/plugin system with an extensible application architecture and main loop</li>
@@ -56,6 +57,7 @@
 <li>Texture tools</li>
 <li>Deep data driven undo/redo</li>
 <li>Live edits of the game&rsquo;s active scene when connected to editor</li>
+<li>Record and replay captured frames from gameplay session</li>
 </ul>
 </li>
 <li>Tile system with support for multiple grid types and advanced auto-tiling</li>
@@ -65,12 +67,13 @@
 <ul>
 <li>Clustered deferred lighting</li>
 <li>Micro-facet surface model</li>
+<li>Burley diffuse BRDF, subsurface BSDF</li>
 <li>Energy conserving area lights</li>
 <li>Image based lighting</li>
 <li>Directional cascaded shadow mapping</li>
 <li>Local light shadows</li>
 <li>GPU driven renderer using only a few multi draw indirect calls</li>
-<li>Voxel based dynamic diffuse global illumination</li>
+<li>Dynamic diffuse global illumination, software raytracing of voxel meshes</li>
 <li>Screen space ambient occlusion based on the GTAO algorithm</li>
 <li>Screen space reflections with rough reflections using screen space cone tracing</li>
 <li>Normal mapping</li>
@@ -90,9 +93,11 @@
 <li>Iterative Gauss Seidel constraint solver</li>
 <li>Island solver</li>
 <li>Multiple constraint types</li>
+<li>Soft constraints</li>
+<li>Triangle mesh collision for static objects</li>
 </ul>
 </li>
-<li>Timeline animation system
+<li>Animation system
 
 <ul>
 <li>Skeletal animation, motor (dual-quaternion) skinning</li>
@@ -100,6 +105,8 @@
 <li>Timeline editor</li>
 <li>Animate component properties</li>
 <li>Animation nodes can parent entity transforms</li>
+<li>Inverse kinematics with joint constraints</li>
+<li>Animation blending</li>
 </ul>
 </li>
 <li>2D rigid body physics engine
