@@ -4,7 +4,6 @@
 	<meta charset="utf-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 	<title></title>
-	<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 	<link rel="stylesheet" href="modest.css"/>
 	<link rel="stylesheet" href="custom.css"/>
@@ -290,8 +289,7 @@ vec4 sample_anisotropic(vec2 uv) {
 </code></pre>
 I&rsquo;m pretty happy with the final result. Some minor improvements could still be made by sampling along the minor axis a small amount in addition to sampling along the major axis, or by doing something more advanced such as in <a href="#[3]">[3]</a>. The mathematically ideal solution is to take the Gaussian convolution over the entire elliptical area, however this approximation works well enough for my use case. The following Shader Toy demonstrates the difference between naive isotropic filtering and EWA anisotropic filtering.</p>
 
-<iframe frameborder="0" src="https://www.shadertoy.com/embed/DtsfWM?gui=true&t=10&paused=false&muted=false" allowfullscreen></iframe>
-
+<p><a href="https://www.shadertoy.com/view/DtsfWM" target="_blank">View on shadertoy</a></p>
 
 <a name="References"></a>
 <h4>References</h4>

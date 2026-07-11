@@ -4,7 +4,6 @@
 	<meta charset="utf-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 	<title></title>
-	<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 	<link rel="stylesheet" href="modest.css"/>
 	<link rel="stylesheet" href="custom.css"/>
@@ -37,15 +36,7 @@
 <li>Custom implementation of a reliable ordered network protocol over UDP, inspired by Valve&rsquo;s game network sockets</li>
 <li>Reliable cross-platform hot code and asset reloading for both the game and editor</li>
 <li>Runtime data model with support for multiple serialization formats and automatic symmetric diffing</li>
-<li>Simple entity component system that features
-
-<ul>
-<li>Runtime defined components</li>
-<li>Prefabs</li>
-<li>Comprehensive serialization, custom serialization callbacks based on the data type or annotation</li>
-<li>Many built in components for interfacing with all engine systems</li>
-</ul>
-</li>
+<li>Simple entity component system that features cache efficient iteration, entity links and a transform hierarchy</li>
 <li>Out of process editor
 
 <ul>
@@ -74,8 +65,8 @@
 <li>Local light shadows</li>
 <li>GPU driven renderer using only a few multi draw indirect calls</li>
 <li>Dynamic diffuse global illumination, software raytracing of voxel meshes</li>
+<li>Indirect specular GI using a screen space gather with a fallback to radiance probes</li>
 <li>Screen space ambient occlusion based on the GTAO algorithm</li>
-<li>Screen space reflections with rough reflections using screen space cone tracing</li>
 <li>Normal mapping</li>
 <li>Screen space contact shadows</li>
 <li>Compute bloom</li>
@@ -83,7 +74,7 @@
 <li>Compute particle system, n-body simulation</li>
 <li>Tone-mapping and gamma correction</li>
 <li>Complete 2D support even for advanced lighting and post-processing</li>
-<li>Batches draw calls per material and render layer</li>
+<li>Efficient auto-batching of draw calls</li>
 </ul>
 </li>
 <li>3D rigid body physics engine
@@ -104,9 +95,9 @@
 <li>Import animation timelines from gltf files</li>
 <li>Timeline editor</li>
 <li>Animate component properties</li>
-<li>Animation nodes can parent entity transforms</li>
+<li>Animation nodes can parent entity transforms (joint attachments)</li>
 <li>Inverse kinematics with joint constraints</li>
-<li>Animation blending</li>
+<li>Animation blending for one shot additive animations and blend spaces</li>
 </ul>
 </li>
 <li>2D rigid body physics engine
@@ -132,23 +123,27 @@
 </ul>
 
 
-<a name="Graphics-Showcase"></a>
-<h6>Graphics Showcase</h6>
+<a name="Screenshots"></a>
+<h6>Screenshots</h6>
+
+<p><img src="sponza.png" alt="Sponza" /></p>
+
+<p><img src="bistro.png" alt="Bistro" /></p>
+
+<p><img src="forest.png" alt="Forest" /></p>
+
+<p><img src="indirect-lighting.png" alt="Indirect lighting" /></p>
+
+<p><img src="editor-dungeon-game.png" alt="Scene editor" /></p>
+
+<a name="L2024-showcase"></a>
+<h6>2024 showcase</h6>
 
 <iframe id="graphics-showcase" src="https://www.youtube.com/embed/cAg9D_TCmtE" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
-<a name="Screenshots"></a>
-<h6>Screenshots</h6>
-
-<p><img src="indirect-lighting.png" alt="Indirect lighting" /></p>
-
-<p><img src="sponza.png" alt="Sponza" /></p>
-
-<p><img src="editor-dungeon-game.png" alt="Scene editor" /></p>
-
-<a name="Old-showcase-video--28-6-years-old-29-"></a>
-<h6>Old showcase video (6 years old)</h6>
+<a name="L2019-showcase"></a>
+<h6>2019 showcase</h6>
 
 <iframe id="engine-showcase" src="https://www.youtube.com/embed/WPXpYQz1Xi0" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
